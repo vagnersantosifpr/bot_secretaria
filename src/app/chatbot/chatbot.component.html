@@ -1,0 +1,34 @@
+<!-- chatbot.component.html -->
+<div class="chatbot-container">
+  <!-- Área de mensagens (container principal que irá rolar) -->
+  <div #chatMessages class="chat-messages">
+    <!-- Loop para exibir cada mensagem -->
+    <div *ngFor="let message of messages" class="message-bubble-wrapper">
+      <!-- Bolha da mensagem (aplicamos classes user/bot aqui) -->
+      <div class="message-bubble" [ngClass]="{'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}">
+        <!-- Opcional: Avatar (descomente se tiver as imagens) -->
+        <!-- <img *ngIf="message.sender === 'bot'" src="assets/images/avatar-bot.jpg" class="avatar bot-avatar"> -->
+        
+        <!-- Texto da mensagem -->
+        <div class="message-text">
+           <!-- Exemplo com sender name (opcional) -->
+           <!-- <div class="sender-name">{{ message.sender === 'user' ? 'Você' : 'Bot' }}</div> -->
+           <div *ngIf="message.sender === 'bot'" [innerHTML]="message.text"></div>
+           <div *ngIf="message.sender === 'user'">{{ message.text }}</div>
+        </div>
+
+        <!-- Opcional: Avatar do usuário (colocado aqui para alinhar à direita) -->
+        <!-- <img *ngIf="message.sender === 'user'" src="assets/images/avatar-usuario.jpg" class="avatar user-avatar"> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Área de input e botão -->
+  <div class="input-area">
+    <mat-form-field appearance="outline" class="message-input">
+      <mat-label>Digite sua mensagem</mat-label>
+      <input matInput [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="sendMessage()">Enviar</button>
+  </div>
+</div>

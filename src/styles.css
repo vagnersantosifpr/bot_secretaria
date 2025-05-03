@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  background-color: #171616;
+  /* Cinza claro */
+  background-image: url('assets/images/bg1.png'); /* Se bg1.png estiver em src/assets/images */
+  /* Substitua pelo URL da sua imagem */
+  background-size: cover;
+  /* Ajusta a imagem para cobrir todo o espaço */
+  background-repeat: no-repeat;
+  /* Evita que a imagem se repita */
+  background-position: center center;
+  /* Centraliza a imagem */
+  min-height: 100vh;
+  /* Garante que o fundo cubra toda a altura da tela */
+  /* Opcional: Ajuste a cor de fundo para uma melhor legibilidade do texto */
+  /* background-color: rgba(255, 255, 255, 0.8);  */
+  /* Fundo branco semi-transparente */
+}

@@ -1,0 +1,266 @@
+/* chatbot.component.css */
+
+/* Garante que o container seja o ponto de referência para o posicionamento absoluto */
+.chatbot-container {
+  /* ... (seus estilos existentes) ... */
+  position: relative; /* NECESSÁRIO para o posicionamento do indicador */
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  overflow: hidden;
+}
+
+.chat-messages {
+  /* ... (seus estilos existentes) ... */
+  flex-grow: 1;
+  overflow-y: auto; /* Mantém isso */
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Adiciona padding-bottom para que a última mensagem não fique sob o indicador */
+  padding-bottom: 50px; /* Ajuste conforme o tamanho do indicador + input */
+}
+
+/* Estilos para o Indicador de Rolagem */
+.scroll-indicator {
+  position: absolute; /* Posiciona sobre o conteúdo */
+  bottom: 65px; /* Posição acima da área de input (ajuste conforme a altura do seu .input-area) */
+  left: 50%; /* Centraliza horizontalmente */
+  transform: translateX(-50%); /* Ajuste fino para centralização */
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+  color: white; /* Cor do ícone/texto */
+  border-radius: 50%; /* Faz um círculo */
+  width: 36px; /* Largura */
+  height: 36px; /* Altura */
+  display: flex; /* Para centralizar o ícone dentro */
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  cursor: pointer; /* Indica que é clicável */
+  z-index: 10; /* Garante que fique acima das mensagens */
+  opacity: 0.8; /* Leve transparência */
+  transition: opacity 0.3s ease; /* Transição suave para aparecer/desaparecer */
+}
+
+.scroll-indicator:hover {
+  opacity: 1; /* Opacidade total no hover */
+}
+
+/* Adaptações para .input-area podem ser necessárias se a posição absoluta conflitar */
+.input-area {
+  /* ... (seus estilos existentes) ... */
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: #ffffff;
+  border-top: 1px solid #eee;
+  gap: 10px;
+  z-index: 5; /* Garante que fique acima de qualquer sombra de mensagem, mas abaixo do indicador */
+  position: relative; /* Adicionado para garantir o z-index */
+}
+
+/* ... (resto dos seus estilos) ... */
+
+
+/* chatbot.component.css */
+.chatbot-container {
+  /* Cores e Aparência do Contêiner Principal */
+  background-color: #f0f0f0; /* Um cinza claro para o fundo geral */
+  border: 1px solid #ccc; /* Borda suave */
+  border-radius: 10px; /* Cantos arredondados */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra elegante */
+
+  /* Flexbox para organizar mensagens e input */
+  display: flex;
+  flex-direction: column; /* Empilha os filhos verticalmente */
+
+  /* Dimensões e Posicionamento */
+  height: 80vh; /* Altura total do componente */
+  width: 100%;
+  max-width: 800px; /* Largura máxima */
+  margin: 20px auto; /* Centraliza */
+
+  overflow: hidden; /* Garante que tudo dentro fique nos limites */
+}
+
+/* Área de Mensagens - O contêiner que vai rolar */
+.chat-messages {
+  flex-grow: 1; /* **Crucial:** Faz com que esta área ocupe todo o espaço restante */
+  overflow-y: auto; /* **Crucial:** Habilita a barra de scroll vertical quando o conteúdo excede a altura */
+  padding: 15px; /* Espaço interno */
+  display: flex;
+  flex-direction: column; /* Mensagens em coluna */
+  gap: 10px; /* Espaço entre as bolhas de mensagem (CSS moderno, ajuste para browsers antigos se necessário) */
+
+  /* Remove qualquer padding padrão que mat-list-item possa ter deixado resquícios */
+  /* Se você removeu mat-list, este talvez não seja mais necessário */
+  /* padding: 0 !important; */
+}
+
+/* Estilo para o wrapper de cada bolha */
+.message-bubble-wrapper {
+  display: flex; /* Usa flexbox para alinhar a bolha (esquerda/direita) */
+  width: 100%; /* O wrapper ocupa toda a largura */
+}
+
+/* Estilo base para a bolha de mensagem */
+.message-bubble {
+  /* display: flex; Usei no wrapper */
+  /* align-items: flex-start; Usei no wrapper */
+  padding: 10px 15px; /* Padding interno da bolha */
+  border-radius: 20px; /* Cantos bem arredondados */
+  max-width: 75%; /* Limita a largura da bolha para não ocupar a tela toda */
+  word-wrap: break-word; /* Quebra palavras longas */
+  word-break: break-word; /* Força a quebra se necessário */
+  font-size: 15px; /* Tamanho da fonte */
+  line-height: 1.4; /* Espaçamento entre linhas */
+  position: relative; /* Necessário para os "bicos" se for adicioná-los */
+}
+
+
+/* Estilo para a bolha do usuário */
+.user-message {
+  background-color: #a4b0be; /* Cor de fundo para mensagens do usuário */
+  color: #333; /* Cor do texto */
+  align-self: flex-end; /* Alinha a bolha para a direita (dentro do chat-messages column flex) */
+  margin-left: auto; /* Empurra a bolha para a direita (dentro do message-bubble-wrapper flex) */
+  /* border-bottom-right-radius: 5px; */ /* Opcional: para o "bico" */
+}
+
+/* Estilo para a bolha do bot */
+.bot-message {
+  background-color: #e0f7fa; /* Cor de fundo para mensagens do bot (um azul claro) */
+  color: #333; /* Cor do texto */
+  align-self: flex-start; /* Alinha a bolha para a esquerda */
+  margin-right: auto; /* Empurra a bolha para a esquerda */
+  /* border-bottom-left-radius: 5px; */ /* Opcional: para o "bico" */
+}
+
+/* Estilo para o texto dentro da bolha */
+.message-text {
+  white-space: pre-line; /* Mantém quebras de linha do texto da resposta */
+  /* Remove margens e padding padrão se houver */
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Estilo para avatares (se você descomentar no HTML) */
+.avatar {
+  width: 30px; /* Tamanho do avatar */
+  height: 30px;
+  border-radius: 50%; /* Redondo */
+  object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
+}
+
+.user-avatar {
+  margin-left: 8px; /* Espaço entre a bolha e o avatar do usuário */
+}
+
+.bot-avatar {
+  margin-right: 8px; /* Espaço entre o avatar e a bolha do bot */
+}
+
+
+/* Área de Input e Botão */
+.input-area {
+  display: flex;
+  align-items: center; /* Alinha verticalmente os itens */
+  padding: 15px;
+  background-color: #ffffff; /* Fundo branco para a área de input */
+  border-top: 1px solid #eee; /* Separador sutil */
+  gap: 10px; /* Espaço entre o input e o botão */
+}
+
+.message-input {
+  flex-grow: 1; /* Faz o campo de input ocupar o espaço restante */
+  /* Remove margem se existir, gap já cuida disso */
+  /* margin-right: 10px; */
+}
+
+/* Ajustes específicos para o input dentro do mat-form-field */
+.message-input .mat-mdc-form-field-flex {
+  /* Ajustes para a altura do input, pode variar dependendo da versão do Material */
+  align-items: center;
+}
+
+
+button[mat-raised-button] {
+  /* background-color: #007bff;  Um azul mais comum */
+  background-color: #5a7193; /* Cor base mais escura */
+  color: white; /* Texto branco no botão */
+  border-radius: 20px;
+  padding: 0 20px; /* Padding horizontal */
+  height: 40px; /* Altura do botão para alinhar com o input */
+  font-size: 15px;
+  transition: background-color 0.3s ease;
+}
+
+button[mat-raised-button]:hover {
+  background-color: #475c7d; /* Cor mais escura no hover */
+}
+
+/* Estilos para a barra de rolagem (webkit - Chrome, Safari) */
+.chat-messages::-webkit-scrollbar {
+  width: 8px; /* Largura da barra de rolagem */
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: #f9f9f9; /* Cor de fundo */
+  border-radius: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: #ccc; /* Cor do "polegar" */
+  border-radius: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3; /* Cor no hover */
+}
+
+/* Estilos para a barra de rolagem (Firefox) */
+.chat-messages {
+  scrollbar-width: thin; /* "auto" ou "thin" */
+  scrollbar-color: #ccc #f9f9f9; /* thumb track */
+}
+
+
+/* Responsividade */
+@media (max-width: 600px) { /* Ajustei o breakpoint para mobile */
+  .chatbot-container {
+    margin: 10px;
+    height: 90vh; /* Ocupa mais altura em telas pequenas */
+  }
+
+  .message-bubble {
+    max-width: 85%; /* Permite que a bolha ocupe mais largura */
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .input-area {
+    padding: 10px;
+    flex-direction: column; /* Empilha input e botão em telas pequenas */
+    gap: 5px; /* Espaço menor */
+  }
+
+  .message-input {
+    width: 100%; /* Input ocupa a largura total */
+    margin-right: 0; /* Remove margem */
+  }
+
+  button[mat-raised-button] {
+    width: 100%; /* Botão ocupa a largura total */
+    padding: 10px 20px;
+    font-size: 14px;
+    height: auto; /* Altura automática */
+  }
+}

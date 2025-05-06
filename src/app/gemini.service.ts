@@ -6,82 +6,85 @@ import { environment } from './environments/environment';
 import { map } from 'rxjs/operators';
 
 interface Message {
-    role: string;
-    parts: [{ text: string }];
+  role: string;
+  parts: [{ text: string }];
 }
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 
 export class GeminiService {
 
-    private apiKey = environment.googleApiKey; // Armazene sua chave em environment.ts
-    private apiUrl =
-        'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
-    //private systemInstruction$: Observable<string>; // Observable para armazenar a system_instruction
-    private conversationHistory: Message[] = []; // Array para armazenar o histórico
+  private apiKey = environment.googleApiKey; // Armazene sua chave em environment.ts
+  private apiUrl =
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+  //private systemInstruction$: Observable<string>; // Observable para armazenar a system_instruction
+  private conversationHistory: Message[] = []; // Array para armazenar o histórico
 
 
 
-    constructor(private http: HttpClient) {
-        //this.systemInstruction$ = this.http.get('system_instruction.txt', { responseType: 'text' });
-        const systemInstruction = this.getSystemInstruction();
-        // Adicione a system_instruction como a primeira mensagem
-        this.conversationHistory.push({ role: "user", parts: [{ text: systemInstruction }] });
-    }
+  constructor(private http: HttpClient) {
+    //this.systemInstruction$ = this.http.get('system_instruction.txt', { responseType: 'text' });
+    const systemInstruction = this.getSystemInstruction();
+    // Adicione a system_instruction como a primeira mensagem
+    this.conversationHistory.push({ role: "user", parts: [{ text: systemInstruction }] });
+  }
 
-    sendMessage(message: string): Observable<any> {
-        const headers = new HttpHeaders({
-            'Content-Type': 'application/json'
-        });
+  sendMessage(message: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
 
-        // Adicione a mensagem do usuário ao histórico
-        this.conversationHistory.push({ role: "user", parts: [{ text: message }] });
+    // Adicione a mensagem do usuário ao histórico
+    this.conversationHistory.push({ role: "user", parts: [{ text: message }] });
 
 
-        const requestBody = {
-            contents: this.conversationHistory, // Envie todo o histórico
-            generationConfig: {
-                temperature: 0.9,
-                topK: 1,
-                topP: 1,
-                maxOutputTokens: 2048,
-                stopSequences: []
-              },
-              safetySettings: [
-                {
-                  category: "HARM_CATEGORY_HARASSMENT",
-                  threshold: "BLOCK_MEDIUM_AND_ABOVE"
-                },
-                {
-                  category: "HARM_CATEGORY_HATE_SPEECH",
-                  threshold: "BLOCK_MEDIUM_AND_ABOVE"
-                },
-                {
-                  category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                  threshold: "BLOCK_MEDIUM_AND_ABOVE"
-                },
-                {
-                  category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-                  threshold: "BLOCK_MEDIUM_AND_ABOVE"
-                }
-            ]
-        };
+    const requestBody = {
+      contents: this.conversationHistory, // Envie todo o histórico
+      systemInstruction: {
+        parts: [{ text: this.getSystemInstruction() }]
+      }, // Adiciona a instrução do sistema aqui
+      generationConfig: {
+        temperature: 0.9,
+        topK: 1,
+        topP: 1,
+        maxOutputTokens: 2048,
+        stopSequences: []
+      },
+      safetySettings: [
+        {
+          category: "HARM_CATEGORY_HARASSMENT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_HATE_SPEECH",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        }
+      ]
+    };
 
-        // return this.systemInstruction$.pipe(
-        //     map((systemInstruction: string) => {
+    // return this.systemInstruction$.pipe(
+    //     map((systemInstruction: string) => {
 
-        const url = `${this.apiUrl}?key=${this.apiKey}`;
+    const url = `${this.apiUrl}?key=${this.apiKey}`;
 
-        return this.http.post(url, requestBody, { headers });
-        //     })
-        // );
-    }
+    return this.http.post(url, requestBody, { headers });
+    //     })
+    // );
+  }
 
-    getSystemInstruction(): string {
-      //Sua resposta precisa ser curta com no máximo 300 caracteres.
-        return ` Olá! Seja bem-vindo(a) ao novo canal digital de atendimento do IFPR – Campus Assis Chateaubriand.
+  getSystemInstruction(): string {
+    //Sua resposta precisa ser curta com no máximo 300 caracteres.
+    return ` Olá! Seja bem-vindo(a) ao novo canal digital de atendimento do IFPR – Campus Assis Chateaubriand.
 Sou a assistente virtual, muito prazer!!! Aqui você receberá algumas informações!
 
 
@@ -425,5 +428,5 @@ Como posso te ajudar?
 
         `;
 
-    }
+  }
 }

@@ -78,7 +78,7 @@ Digite o número da opção desejada.`;
     // Isso garante que, se a mensagem inicial for longa, o scroll funcione
     // Pode ser necessário um pequeno delay para o DOM atualizar
     setTimeout(() => {
-      this.scrollToShowNewMessage(); // ou scrollToBottom() se preferir ir até o final
+      //this.scrollToShowNewMessage(); // ou scrollToBottom() se preferir ir até o final
     }, 0);
   }
 

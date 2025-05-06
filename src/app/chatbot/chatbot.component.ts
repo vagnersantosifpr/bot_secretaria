@@ -40,6 +40,50 @@ export class ChatbotComponent implements AfterViewChecked {
     marked.use({ breaks: true });
   }
 
+  ngOnInit(): void { // Método ngOnInit implementado
+    const initialBotMessage = `Olá! Seja bem-vindo(a) novamente ao canal digital de atendimento do IFPR – Campus Assis Chateaubriand. Como posso te ajudar?
+
+Você pode escolher uma das opções abaixo:
+
+1.  Atestado Médico para justificar faltas
+2.  Aproveitamento de Estudos
+3.  Biblioteca
+4.  Bolsa Estudantil (PACE)
+5.  Cancelamento de Matrícula
+6.  Certificação de Conhecimentos Anteriores
+7.  Contato do Biopark – CR Toledo
+8.  Declaração de Matrícula
+9.  Dependências (DPs)
+10. ENCCEJA
+11. Regime domiciliar (Atestados acima de 15 dias)
+12. Reposição de Avaliação
+13. Revisão de Conceitos
+14. SEPAE (Seção Pedagógica)
+15. Trancamento de Matrícula
+16. Transferência Externa
+17. WI-FI (Internet)
+18. Outros assuntos
+
+Digite o número da opção desejada.`;
+
+    const formattedInitialMessage = marked.parse(initialBotMessage) as string;
+
+    this.messages.push({
+      sender: 'bot',
+      text: formattedInitialMessage,
+      isHtml: true
+    });
+
+    // Chame a rolagem após adicionar a mensagem inicial, se necessário
+    // Isso garante que, se a mensagem inicial for longa, o scroll funcione
+    // Pode ser necessário um pequeno delay para o DOM atualizar
+    setTimeout(() => {
+      this.scrollToShowNewMessage(); // ou scrollToBottom() se preferir ir até o final
+    }, 0);
+  }
+
+
+
   ngAfterViewChecked() {
     if (this.shouldScroll) {
       this.scrollToShowNewMessage();

@@ -367,7 +367,7 @@ ______________________________________________________________________
 
 18) Outros assuntos
 
-Aguarde alguns minutos até que alguém da nossa equipe possa te atender.
+Por favor, retorne ao WhatsApp para ser atendido(a)
 Agradecemos pela compreensão! 
 
 
